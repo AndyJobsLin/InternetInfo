@@ -11,13 +11,31 @@ import SystemConfiguration.CaptiveNetwork
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var Show: UILabel!
+
+    
+    @IBOutlet weak var SSIDName: UILabel!
+    @IBOutlet weak var ErrorMsg: UILabel!
+    @IBOutlet weak var CheckPunch: UIButton!
+    
+    var SSID: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        Show.text = fetchSSIDInfo()
+        ErrorMsg.text = nil
+        SSID = fetchSSIDInfo()
+        if(SSID == nil)
+        {
+            SSIDName.text = "無Wi-Fi連線"
+            SSIDName.textColor = UIColor.red
+        }
+        else
+        {
+            SSIDName.textColor = UIColor.black
+            SSIDName.text = SSID!
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,29 +43,13 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func CheckPunch(_ sender: Any) {
+        
+        ErrorMsg.text = "打卡成功"
+        
+        
+    }
     
-//    func currentWifiSSID() -> String {
-//
-//        var ssid: String = "";
-//        if let interfaces = CNCopySupportedInterfaces() {
-//            let interfacesArray = interfaces() as! [String]
-//            if (interfacesArray.count > 0) {
-//
-//                let ifname = interfacesArray[0];
-//                let ifdata = CNCopyCurrentNetworkInfo(ifname);
-//                print("ifdata \(ifdata)")
-//                //println(ifdata)
-//                if(ifdata != nil)
-//                {
-//                    let interfaceData: Dictionary = ifdata.takeRetainedValue() as Dictionary
-//                    print("interfaceData \(interfaceData)")
-//                    ssid = interfaceData["SSID"] as! String
-//                }
-//            }
-//        }
-//
-//        return ssid;
-//    }
     
     func fetchSSIDInfo() ->  String? {
         if let interfaces = CNCopySupportedInterfaces() {
