@@ -12,6 +12,7 @@
 		FD5EFC8020B3A2C200398C0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFC7E20B3A2C200398C0C /* Main.storyboard */; };
 		FD5EFC8220B3A2C200398C0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFC8120B3A2C200398C0C /* Assets.xcassets */; };
 		FD5EFC8520B3A2C200398C0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFC8320B3A2C200398C0C /* LaunchScreen.storyboard */; };
+		FDAC8A9D20BCF2D800F40C5F /* WebServiceParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC8A9C20BCF2D800F40C5F /* WebServiceParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		FD5EFC8120B3A2C200398C0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD5EFC8420B3A2C200398C0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD5EFC8620B3A2C200398C0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDAC8A9C20BCF2D800F40C5F /* WebServiceParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServiceParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				FD5EFC7A20B3A2C200398C0C /* AppDelegate.swift */,
 				FD5EFC7C20B3A2C200398C0C /* ViewController.swift */,
 				FD5EFC7E20B3A2C200398C0C /* Main.storyboard */,
+				FDAC8A9C20BCF2D800F40C5F /* WebServiceParser.swift */,
 				FD5EFC8120B3A2C200398C0C /* Assets.xcassets */,
 				FD5EFC8320B3A2C200398C0C /* LaunchScreen.storyboard */,
 				FD5EFC8620B3A2C200398C0C /* Info.plist */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD5EFC7D20B3A2C200398C0C /* ViewController.swift in Sources */,
+				FDAC8A9D20BCF2D800F40C5F /* WebServiceParser.swift in Sources */,
 				FD5EFC7B20B3A2C200398C0C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

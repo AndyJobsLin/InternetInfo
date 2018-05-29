@@ -11,7 +11,7 @@ import SystemConfiguration.CaptiveNetwork
 
 class ViewController: UIViewController {
 
-
+    private var JSONStr: String = ""
     
     @IBOutlet weak var SSIDName: UILabel!
     @IBOutlet weak var ErrorMsg: UILabel!
@@ -19,16 +19,26 @@ class ViewController: UIViewController {
     
     var SSID: String? = nil
     
+    
+    var ErrMsg = ""
+    var ResultMsg = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         ErrorMsg.text = nil
         SSID = fetchSSIDInfo()
-        if(SSID == nil)
-        {
+        if(SSID == nil){
             SSIDName.text = "無Wi-Fi連線"
             SSIDName.textColor = UIColor.red
+        }
+        else if(SSID != "csh-staff"){
+            SSIDName.textColor = UIColor.red
+            SSIDName.text = SSID!
+            ErrorMsg.text = "不正確的網路連線"
+            CheckPunch.isEnabled = false
+            return
         }
         else
         {
@@ -45,8 +55,17 @@ class ViewController: UIViewController {
 
     @IBAction func CheckPunch(_ sender: Any) {
         
-        ErrorMsg.text = "打卡成功"
+        let WebServiceURL = "http://192.168.129.55/AppWebService/AppWebService/EmpPunchService.asmx"
+        let WebServiceStr = String(format: "<?xml version='1.0' encoding='utf-8'?><soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><InsertIntoPunchRecord xmlns='http://tempuri.org/'><EmpNo>15432</EmpNo></InsertIntoPunchRecord></soap:Body></soap:Envelope>")
         
+        let WSParser = WebServiceParser()
+        WSParser.ConnentToWebService(WebServiceURL: WebServiceURL, WebServiceStr: WebServiceStr, completionHandler: {(JSONStr) -> Void in
+            self.JSONStr = JSONStr
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.CheckDrInfo(JSONStr: self.JSONStr)
+        }
         
     }
     
@@ -66,5 +85,30 @@ class ViewController: UIViewController {
         return nil
     }
 
+    func CheckDrInfo(JSONStr: String){
+        
+        //解析Web Service 回傳資料，回傳格式為 JSON\
+        let jsonString: String = "[" + JSONStr + "]"
+        let jsonData: Data? = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: true)
+        let jsonArray: Any? = try?(JSONSerialization.jsonObject(with: jsonData!, options: JSONSerialization.ReadingOptions.mutableContainers))
+        let jsonArrayObj = jsonArray as! Array<Any>?
+        for itemO in jsonArrayObj!{
+            let item = itemO as! Dictionary<String, String>
+            ErrMsg = (item["ErrorMsg"])!
+            ResultMsg = (item["ResultMsg"])!
+        }
+        
+        print("ErrorMsg===>\(ErrMsg)")
+        print("ResultMsg===>\(ResultMsg)")
+        
+        if ErrMsg == "False" {
+            ErrorMsg.text = ResultMsg
+            return
+        }
+        
+        
+        CheckPunch.isEnabled = false
+        ErrorMsg.text = ResultMsg
+    }
 }
 
